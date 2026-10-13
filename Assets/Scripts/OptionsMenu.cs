@@ -15,6 +15,23 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] AudioMixer mainMixer;
 
     [Header("Configurables")]
+    [SerializeField] bool fullscreen;
+
+    private void Update()
+    {
+        if (fullscreenToggle.isOn)
+        {
+            Screen.fullScreen = true;
+            fullscreen = true;
+        }
+        else
+        {
+            Screen.fullScreen = false;
+            fullscreen = false;
+        }
+    }
+
+    [Header("Configurables")]
     [SerializeField] bool fullscreenState = false;
     public void SetMusicVolume()
     {
@@ -30,13 +47,6 @@ public class OptionsMenu : MonoBehaviour
 
     public void ToggleFullscreen()
     {
-        if (fullscreenToggle.isOn)
-        {
-            Screen.fullScreen = true;
-        }
-        else
-        {
-            Screen.fullScreen = false;
-        }
+        Debug.Log(fullscreen.ToString());
     }
 }

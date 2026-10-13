@@ -51,7 +51,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void Credits()
     {
-        creditsButton.SetActive(true);
+        creditsPanel.SetActive(true);
         mainMenuElements.SetActive(false);
     }
 
