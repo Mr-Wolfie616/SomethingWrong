@@ -14,7 +14,8 @@ public class EnemyController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        enemyNodes = new List<GameObject>();
+        tiredEnemyNodes = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -22,14 +23,12 @@ public class EnemyController : MonoBehaviour
     {
         // Find State & Enemy Nodes
         StateCountdown -= Time.deltaTime;
-        Debug.Log(StateCountdown);
         if(StateCountdown <= 0)
         {
             StateCountdown = Random.Range(5f, 8f);
             if(CurrentState == EnemyStates.Wait) CurrentState = EnemyStates.Patrol;
             else if(CurrentState == EnemyStates.Patrol) CurrentState = EnemyStates.Wait;
             enemyNodes = new List<GameObject>(GameObject.FindGameObjectsWithTag("EnemyNode"));
-            tiredEnemyNodes = new List<GameObject>();
         }
 
         // Find nearest node
@@ -71,26 +70,33 @@ public class EnemyController : MonoBehaviour
     void Movement(Transform target)
     {
         Ray CollisionRay = new Ray(transform.position, transform.forward);
-        if(Physics.Raycast(CollisionRay, out RaycastHit hit, 1f))
+        Debug.DrawRay(CollisionRay.origin, CollisionRay.direction * 10f, Color.red);
+        if(Physics.Raycast(CollisionRay, out RaycastHit hit, 2f))
         {
-            float xConst = 1;
-            float zConst = 1;
-            if(target.position.x < transform.position.x) xConst = -1;
-            if(target.position.z < transform.position.z) zConst = -1;
-            new Vector3(hit.normal.z * xConst, 0, hit.normal.x * zConst);
-            transform.position += transform.forward * SPEED * Time.deltaTime;
+            float xConst = 0;
+            float zConst = 0;
+            if((target.position - transform.position).x > 0) xConst = 1;
+            else if((target.position - transform.position).x < 0) xConst = -1;
+            if((target.position - transform.position).z > 0) zConst = 1;
+            else if((target.position - transform.position).z < 0) zConst = -1;
+            Vector3 movement = new Vector3(1 * xConst, 0, 1 * zConst);
+            transform.position += movement * SPEED * Time.deltaTime;
         }
         else
         {
             // Move towards target
             transform.position += transform.forward * SPEED * Time.deltaTime;
-            float targetAngle = Vector3.Angle(target.position - transform.position, transform.forward); 
-            transform.rotation = Quaternion.Euler
-            (
-                transform.rotation.x, 
-                Mathf.Lerp(transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.y +targetAngle, 0.1f), 
-                transform.rotation.z
-            );
+            float targetAngle = Vector3.Angle(target.position - transform.position, transform.forward);
+            Debug.Log(targetAngle);
+            //if(targetAngle > 180) targetAngle = targetAngle - 180;
+            {
+                transform.rotation = Quaternion.Euler
+                (
+                    transform.rotation.x, 
+                    Mathf.Lerp(transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.y + targetAngle, 0.1f), 
+                    transform.rotation.z
+                );
+            }
         }
     }
 }
