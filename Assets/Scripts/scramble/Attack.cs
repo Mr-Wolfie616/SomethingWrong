@@ -1,18 +1,20 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;   
 
 public class Attack : MonoBehaviour
 {
     [Header("Reference")]
     public InputActionReference input;
-    public Camera playerCam;
     public float Damage = 15f;
-    
-    public RaycastHit rayHit;
+    public float Range = 1.5f;     
+    public float HitRadius = 1f;   
+
+    private bool canAttack = true;  
 
     private void Awake()
     {
-        input = FindAnyObjectByType<InputActionReference>();
+        input.action.Enable();   
     }
 
     private void Update()
@@ -22,7 +24,7 @@ public class Attack : MonoBehaviour
 
     private void Input()
     {
-        if(input.Attack)
+        if (canAttack && input.action.WasPressedThisFrame())   
         {
             TryHit();
         }
@@ -35,17 +37,28 @@ public class Attack : MonoBehaviour
 
     private IEnumerator HitRoutine()
     {
+        canAttack = false;  
         Hit();
         yield return new WaitForSeconds(1);
-        yield return new WaitForSeconds(3);
+        canAttack = true;    
     }
 
     private void Hit()
     {
-        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out rayHit, 5f))
+        
+        Vector3 hitPoint = transform.position + Vector3.up + transform.forward * Range;
+        Collider[] hits = Physics.OverlapSphere(hitPoint, HitRadius);
+
+        foreach (Collider hit in hits)
         {
-            rayHit.collider.TryGetComponent<IDamageable>(out var damageable);
-            damageable?.TakeDamage(Damage);
+            Enemy_Damage enemy = hit.GetComponent<Enemy_Damage>();
+            if (enemy != null) enemy.TakeDamage(Damage);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + Vector3.up + transform.forward * Range, HitRadius);
     }
 }

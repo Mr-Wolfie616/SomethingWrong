@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy_Damage : MonoBehaviour, IDamageable
+public class Enemy_Damage : MonoBehaviour
 {
     [SerializeField] private float Mhealth = 25f;
 

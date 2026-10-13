@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90492bee9ae43284fb28eaab4b393849, type: 3}
+  m_Script: {fileID: 11500000, guid: b6306c628f8b2344f85caa052fb4c0cd, type: 3}
   m_Name: Movement Settings
   m_EditorClassIdentifier: Assembly-CSharp::MovementSettings
   <MoveSpeed>k__BackingField: 6
