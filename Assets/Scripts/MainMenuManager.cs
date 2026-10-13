@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -19,10 +20,24 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject creditsPanel;
 
     [SerializeField] GameObject mainMenuElements;
+    [SerializeField] GameObject pauseMenuElements;
+
+    [Header("Configurables")]
+    [SerializeField] string sceneToLoad;
     private void Start()
     {
         SetActive(true);
         leaveConfirmPanel.SetActive(false);
+        optionsPanel.SetActive(false);
+        creditsPanel.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pauseMenuElements.SetActive(true);
+        }
     }
 
     void SetActive(bool toggle)
@@ -38,9 +53,14 @@ public class MainMenuManager : MonoBehaviour
         leaveGameButton.SetActive(toggle);
     }
 
+    public void ResumeGame()
+    {
+        pauseMenuElements.SetActive(false);
+    }
+
     public void StartGame()
     {
-
+        SceneManager.LoadScene(sceneToLoad);
     }
 
     public void Options()
