@@ -20,6 +20,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject creditsPanel;
 
     [SerializeField] GameObject mainMenuElements;
+    [SerializeField] GameObject pauseMenuElements;
 
     [Header("Configurables")]
     [SerializeField] string sceneToLoad;
@@ -35,7 +36,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-
+            pauseMenuElements.SetActive(true);
         }
     }
 
@@ -50,6 +51,11 @@ public class MainMenuManager : MonoBehaviour
         creditsButton.SetActive(toggle);
         creditsButtonText.SetActive(toggle);
         leaveGameButton.SetActive(toggle);
+    }
+
+    public void ResumeGame()
+    {
+        pauseMenuElements.SetActive(false);
     }
 
     public void StartGame()
