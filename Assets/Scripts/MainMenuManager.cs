@@ -24,12 +24,18 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Configurables")]
     [SerializeField] string sceneToLoad;
+    [SerializeField] bool isPauseMenu;
     private void Start()
     {
         SetActive(true);
         leaveConfirmPanel.SetActive(false);
         optionsPanel.SetActive(false);
         creditsPanel.SetActive(false);
+
+        if (isPauseMenu)
+        {
+            pauseMenuElements.SetActive(false);
+        }
     }
 
     private void Update()
@@ -95,5 +101,10 @@ public class MainMenuManager : MonoBehaviour
         optionsPanel.SetActive(false);
         creditsPanel.SetActive(false);
         mainMenuElements.SetActive(true);
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene(sceneToLoad);
     }
 }
