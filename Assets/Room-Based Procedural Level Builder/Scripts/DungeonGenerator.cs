@@ -97,15 +97,19 @@ namespace ProceduralDungeon
         {
             if (dungeonParent == null)
             {
-                GameObject parent = new GameObject("Generated Dungeon");
+                GameObject parent = new GameObject("Generated Maze");
                 dungeonParent = parent.transform;
             }
 
-            while (placedRooms.Count < maxRooms)
+            if (placedRooms.Count < maxRooms)
             {
                 yield return StartCoroutine(PlaceNextRoom());
             }
-            Debug.Log("dfsajpfjifsjfioajoifsjaioas");
+            else {
+                Debug.Log("dfsajpfjifsjfioajoifsjaioas");
+                activelyGenerating = false;
+                onGenerationCompleted.Invoke();
+            }
 
             //if(closedDoorPrefab != null)
             //{
@@ -113,15 +117,22 @@ namespace ProceduralDungeon
             //}
 
             //yield return new WaitForSeconds(2f);
-            activelyGenerating = false;
-            onGenerationCompleted.Invoke();
+
             //Debug.Log(activelyGenerating);
         }
 
 
         IEnumerator PlaceNextRoom()
         {
-            var sourceRoomIndex = Random.Range(0, placedRooms.Count);
+            int sourceRoomIndex;
+
+            if (placedRooms.Count == 1) {
+                sourceRoomIndex = 0;
+            }
+            else {
+                sourceRoomIndex = Random.Range(0, placedRooms.Count);
+            }
+
             Debug.Log($"{sourceRoomIndex} / {placedRooms.Count}");
             GameObject sourceRoom = placedRooms[sourceRoomIndex];
 
@@ -186,16 +197,17 @@ namespace ProceduralDungeon
             Quaternion rotation = Quaternion.FromToRotation(selectedNewEntry.forward, -selectedSourceEntry.forward);
             roomToSpawn.transform.rotation = rotation;
 
-            FixUpsideDown(roomToSpawn);
-
             Vector3 entryGlobalPos = roomToSpawn.transform.TransformPoint(selectedNewEntry.localPosition);
             Vector3 offset = selectedSourceEntry.position - entryGlobalPos;
             roomToSpawn.transform.position = offset;
+
+            FixUpsideDown(roomToSpawn, selectedNewEntry, selectedSourceEntry);
 
             if (IsRoomOverlapping(roomToSpawn))
             {
                 overlapAttempts++;
                 Destroy(roomToSpawn);
+                sourceEntryPoint.isConnected = false;
 
                 if (overlapAttempts >= 3)
                 {
@@ -221,11 +233,22 @@ namespace ProceduralDungeon
             }
         }
 
-        void FixUpsideDown(GameObject roomToSpawn)
+        void FixUpsideDown(GameObject roomToSpawn, Transform selectedEntry, Transform sourceEntry)
         {
             if (Vector3.Dot(roomToSpawn.transform.up, Vector3.down) > 0.9f)
             {
-                roomToSpawn.transform.Rotate(Vector3.forward, 180f, Space.Self);
+                // GameObject nicheOriginFix = new GameObject();
+                // roomToSpawn.transform.SetParent(nicheOriginFix.transform);
+                
+                //roomToSpawn.transform.RotateAround(selectedEntry.position, selectedEntry.forward, 180f);
+                roomToSpawn.transform.Rotate(selectedEntry.forward, 180f, Space.Self);
+
+                float offset = 2 * selectedEntry.localPosition.x - roomToSpawn.transform.localPosition.x;
+                Debug.Log(offset);
+                roomToSpawn.transform.localPosition += new Vector3(offset,0,0);
+
+                // roomToSpawn.transform.SetParent(dungeonParent);
+                // Destroy(nicheOriginFix);
             }
         }
         private bool IsRoomOverlapping(GameObject room)
