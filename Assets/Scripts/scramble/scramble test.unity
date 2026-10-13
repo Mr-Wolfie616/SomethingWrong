@@ -450,13 +450,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1289688938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29ab91d76b4bd5d4f9dd0abacc4d1414, type: 3}
+  m_Script: {fileID: 11500000, guid: a9bbd94cd9ca65e488d249a9cf99b47f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
   _settings: {fileID: 0}
-  _moveAction: {fileID: -1680190386980627800, guid: 3ffc8c9f5e9ee684cbb561b4f0ec3aea, type: 3}
-  _camera: {fileID: 104986931}
-  _scrambler: {fileID: 1289688943}
+  _moveAction: {fileID: 0}
+  _camera: {fileID: 0}
+  _scrambler: {fileID: 0}
 --- !u!143 &1289688945
 CharacterController:
   m_ObjectHideFlags: 0
