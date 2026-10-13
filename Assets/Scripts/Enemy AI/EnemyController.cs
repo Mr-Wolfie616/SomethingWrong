@@ -89,6 +89,8 @@ public class EnemyController : MonoBehaviour
             float targetAngle = Vector3.Angle(target.position - transform.position, transform.forward);
             Debug.Log(targetAngle);
             //if(targetAngle > 180) targetAngle = targetAngle - 180;
+            if(transform.rotation.eulerAngles.y + targetAngle + targetAngle > transform.rotation.eulerAngles.y + targetAngle)
+            targetAngle = -targetAngle;
             {
                 transform.rotation = Quaternion.Euler
                 (
