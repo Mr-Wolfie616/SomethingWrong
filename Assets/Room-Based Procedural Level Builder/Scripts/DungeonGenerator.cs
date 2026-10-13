@@ -37,6 +37,8 @@ namespace ProceduralDungeon
 
         public bool activelyGenerating = false;
 
+        private int generatedRooms = 0;
+
         private void Awake()
         {
             placedRooms.Add(startRoom);
@@ -101,9 +103,12 @@ namespace ProceduralDungeon
                 dungeonParent = parent.transform;
             }
 
-            if (placedRooms.Count < maxRooms)
+            if (generatedRooms < maxRooms)
             {
-                yield return StartCoroutine(PlaceNextRoom());
+                activelyGenerating = true;
+                while(activelyGenerating) {
+                    yield return StartCoroutine(PlaceNextRoom());
+                }
             }
             else {
                 Debug.Log("dfsajpfjifsjfioajoifsjaioas");
@@ -124,6 +129,11 @@ namespace ProceduralDungeon
 
         IEnumerator PlaceNextRoom()
         {
+            //Debug.Log(placedRooms.Count);
+            if (generatedRooms >= maxRooms) {
+                activelyGenerating = false;
+            }
+
             int sourceRoomIndex;
 
             if (placedRooms.Count == 1) {
@@ -133,7 +143,7 @@ namespace ProceduralDungeon
                 sourceRoomIndex = Random.Range(0, placedRooms.Count);
             }
 
-            Debug.Log($"{sourceRoomIndex} / {placedRooms.Count}");
+            //Debug.Log($"{sourceRoomIndex} / {placedRooms.Count}");
             GameObject sourceRoom = placedRooms[sourceRoomIndex];
 
             if (levelData == null)
@@ -177,7 +187,7 @@ namespace ProceduralDungeon
             }
 
             var selectedSourceEntryIndex = Random.Range(0, sourceEntries.Count);
-            Debug.Log($"{selectedSourceEntryIndex} / {sourceEntries.Count} Entries");
+            //Debug.Log($"{selectedSourceEntryIndex} / {sourceEntries.Count} Entries");
             Transform selectedSourceEntry = sourceEntries[selectedSourceEntryIndex];
             EntryPoint sourceEntryPoint = selectedSourceEntry.GetComponent<EntryPoint>();
 
@@ -225,6 +235,7 @@ namespace ProceduralDungeon
                 overlapAttempts = 0;
 
                 placedRooms.Add(roomToSpawn);
+                generatedRooms += 1;
                 sourceEntryPoint.isConnected = true;
                 newEntryPoint.isConnected = true;
                 sourceEntryPoint.connectedEntry = newEntryPoint;

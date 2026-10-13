@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProceduralDungeon.LevelSO
   levelName: test
   roomPrefabs:
-  - {fileID: 6436740159801831313, guid: 91ef2bfdb2e6d964bacc7a72d0a6e290, type: 3}
-  hallwayPrefabs:
-  - {fileID: 6436740159801831313, guid: 91ef2bfdb2e6d964bacc7a72d0a6e290, type: 3}
+  - {fileID: 992645928569403580, guid: c0248a9715906fc4eac5c0a63ff54009, type: 3}
+  hallwayPrefabs: []
   itemList: []
   totalRooms: 15
-  hallwayChance: 0.25
-  sequentialHallwayChanceMultiplier: 0.1
+  hallwayChance: 0
+  sequentialHallwayChanceMultiplier: 0
