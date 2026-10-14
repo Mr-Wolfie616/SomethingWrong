@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class ControlScrambler : MonoBehaviour
 {
     [Header("Damage")]
-    [SerializeField] private float _damageThreshold = 30f;
+    [SerializeField] private float _damageThreshold = 2f;
 
     [Header("Scramble Settings")]
     [SerializeField] private bool _permanent = false;
