@@ -1,16 +1,24 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Healthbar : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [Header("Scripts")]
+    [SerializeField] PlayerHealth playerHealth;
+    [Header("UI Elements")]
+    [SerializeField] Image healthbar;
+    [SerializeField] Sprite[] healthbarSprites;
+    int health;
+    int index = 16;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        health = playerHealth.currentHealth;
+        index = Mathf.FloorToInt(health);
+        if (index > 16)
+        {
+            index = 16;
+        }
+        healthbar.sprite = healthbarSprites[index];
     }
 }
