@@ -12,6 +12,9 @@ public class EnemyAttack : MonoBehaviour
 
     void Update()
     {
-        Player.GetComponent<PlayerHealth>().TakeDamage(1);
+        if(attackCollider.bounds.Intersects(Player.GetComponent<Collider>().bounds))
+        {
+            Player.GetComponent<PlayerHealth>().TakeDamage(1);
+        }
     }
 }
