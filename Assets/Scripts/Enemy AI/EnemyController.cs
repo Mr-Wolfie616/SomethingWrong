@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] AudioSource detectSound;
     private AudioManager audioManager;
     private EnemyStates CurrentState = EnemyStates.Wait;
     private float StateCountdown = 0f;
@@ -52,6 +53,7 @@ public class EnemyController : MonoBehaviour
             if(hit.collider.gameObject == Player) CurrentState = EnemyStates.Chase;
             else if(CurrentState == EnemyStates.Chase) CurrentState = EnemyStates.Wait;
             audioManager.PlayerDetected(true);
+            detectSound.Play();
         }
 
         // Move towards
