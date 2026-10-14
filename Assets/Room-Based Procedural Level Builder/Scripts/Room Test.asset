@@ -15,6 +15,7 @@ MonoBehaviour:
   levelName: test
   roomPrefabs:
   - {fileID: 992645928569403580, guid: c0248a9715906fc4eac5c0a63ff54009, type: 3}
+  - {fileID: 992645928569403580, guid: bfd11b2af5e598644ae697391a099875, type: 3}
   hallwayPrefabs: []
   itemList: []
   totalRooms: 15
