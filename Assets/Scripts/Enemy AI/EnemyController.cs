@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     private List<GameObject> enemyNodes;
     private List<GameObject> tiredEnemyNodes;
     private float SPEED = 7f;
+    private GameObject Player;
 
 
 
@@ -16,6 +17,7 @@ public class EnemyController : MonoBehaviour
     {
         enemyNodes = new List<GameObject>();
         tiredEnemyNodes = new List<GameObject>();
+        Player = GameObject.FindGameObjectsWithTag("Player")[0];
     }
 
     // Update is called once per frame
@@ -44,12 +46,20 @@ public class EnemyController : MonoBehaviour
             }
         }
 
+        // Find player
+        Ray PlayerRay = new Ray(transform.position, Player.transform.position - transform.position);
+        Debug.DrawRay(PlayerRay.origin, PlayerRay.direction * 100f, Color.green);
+        if(Physics.Raycast(PlayerRay, out RaycastHit hit, 100f))
+        {
+            if(hit.collider.gameObject == Player) CurrentState = EnemyStates.Chase;
+            else if(CurrentState == EnemyStates.Chase) CurrentState = EnemyStates.Wait;
+        }
+
         // Move towards
         if(CurrentState == EnemyStates.Patrol && nearestNode != null)
         {
             if(nearestNodeDistance < 1f)
             {
-                //CurrentState = EnemyStates.Wait;
                 tiredEnemyNodes.Add(nearestNode);
                 if(tiredEnemyNodes.Count > 3)
                 {
@@ -61,9 +71,9 @@ public class EnemyController : MonoBehaviour
                 Movement(nearestNode.transform);
             }
         }
-        else if(CurrentState == EnemyStates.Chase && nearestNode != null)
+        else if(CurrentState == EnemyStates.Chase)
         {
-            // Chase player
+            Movement(Player.transform);
         }
     }
 
