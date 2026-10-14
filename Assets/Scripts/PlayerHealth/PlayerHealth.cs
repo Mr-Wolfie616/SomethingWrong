@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int maxHealth = 16;
     [SerializeField] AudioSource deathSound;
-    private int currentHealth;
+    public int currentHealth;
     private ControlScrambler _scrambler;
 
     private void Awake()                              
