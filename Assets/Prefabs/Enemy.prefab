@@ -9964,6 +9964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97712db7a3523404fbea25ebc800ada0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
+  attackCollider: {fileID: 8953355478981938443}
 --- !u!1 &6892638509984041146
 GameObject:
   m_ObjectHideFlags: 0

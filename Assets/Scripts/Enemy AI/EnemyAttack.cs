@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    BoxCollider attackCollider;
+    public BoxCollider attackCollider;
     GameObject Player;
     
     void Start()
