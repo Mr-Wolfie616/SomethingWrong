@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 100;
+    [SerializeField] AudioSource deathSound;
     private int currentHealth;
     private ControlScrambler _scrambler;
 
@@ -32,6 +33,6 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player has died.");
-        // death / fail logic here
+        deathSound.Play();
     }
 }
