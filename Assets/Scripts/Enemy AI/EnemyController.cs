@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] AudioSource detectSound;
     private AudioManager audioManager;
     private EnemyStates CurrentState = EnemyStates.Wait;
     private float StateCountdown = 0f;
@@ -11,9 +12,6 @@ public class EnemyController : MonoBehaviour
     private float SPEED = 7f;
     private GameObject Player;
 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         enemyNodes = new List<GameObject>();
@@ -22,7 +20,6 @@ public class EnemyController : MonoBehaviour
         audioManager = FindFirstObjectByType<AudioManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         // Find State & Enemy Nodes
@@ -56,6 +53,7 @@ public class EnemyController : MonoBehaviour
             if(hit.collider.gameObject == Player) CurrentState = EnemyStates.Chase;
             else if(CurrentState == EnemyStates.Chase) CurrentState = EnemyStates.Wait;
             audioManager.PlayerDetected(true);
+            detectSound.Play();
         }
 
         // Move towards
@@ -100,8 +98,6 @@ public class EnemyController : MonoBehaviour
             // Move towards target
             transform.position += transform.forward * SPEED * Time.deltaTime;
             float targetAngle = Vector3.Angle(target.position - transform.position, transform.forward);
-            Debug.Log(targetAngle);
-            //if(targetAngle > 180) targetAngle = targetAngle - 180;
             if(transform.rotation.eulerAngles.y + targetAngle + targetAngle > transform.rotation.eulerAngles.y + targetAngle)
             targetAngle = -targetAngle;
             {
