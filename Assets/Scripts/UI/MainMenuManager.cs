@@ -21,6 +21,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject mapPanel;
     [SerializeField] GameObject minimapPanel;
     [SerializeField] GameObject deathScreenPanel;
+    [SerializeField] GameObject healthbarPanel;
 
     [SerializeField] GameObject mainMenuElements;
     [SerializeField] GameObject pauseMenuElements;
@@ -54,12 +55,14 @@ public class MainMenuManager : MonoBehaviour
         {
             mapPanel.SetActive(true);
             minimapPanel.SetActive(false);
+            healthbarPanel.SetActive(false);
         }
 
         if (Input.GetKeyUp(KeyCode.Tab) && pauseMenuElements.activeInHierarchy == false)
         {
             mapPanel.SetActive(false);
             minimapPanel.SetActive(true);
+            healthbarPanel.SetActive(true);
         }
     }
 
