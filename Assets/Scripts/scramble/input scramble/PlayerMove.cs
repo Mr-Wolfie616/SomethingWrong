@@ -80,7 +80,7 @@ public class PlayerMove : MonoBehaviour
         if (_horizontalVelocity.sqrMagnitude < 0.01f) return;
 
         Quaternion target = Quaternion.LookRotation(_horizontalVelocity);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, _settings.TurnSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, _settings.TurnSpeed * 0.4f * Time.deltaTime);
     }
 
     private Vector3 CameraRelative(Vector2 input)
