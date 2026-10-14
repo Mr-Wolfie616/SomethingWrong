@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0651eb22174ec8f499275bfe624999b4, type: 3}
+  m_Name: Room Test
+  m_EditorClassIdentifier: Assembly-CSharp::ProceduralDungeon.LevelSO
+  levelName: test
+  roomPrefabs:
+  - {fileID: 992645928569403580, guid: c0248a9715906fc4eac5c0a63ff54009, type: 3}
+  hallwayPrefabs: []
+  itemList: []
+  totalRooms: 15
+  hallwayChance: 0
+  sequentialHallwayChanceMultiplier: 0
