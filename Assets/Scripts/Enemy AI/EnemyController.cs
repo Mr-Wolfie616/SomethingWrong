@@ -12,9 +12,6 @@ public class EnemyController : MonoBehaviour
     private float SPEED = 7f;
     private GameObject Player;
 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         enemyNodes = new List<GameObject>();
@@ -23,7 +20,6 @@ public class EnemyController : MonoBehaviour
         audioManager = FindFirstObjectByType<AudioManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         // Find State & Enemy Nodes
@@ -102,8 +98,6 @@ public class EnemyController : MonoBehaviour
             // Move towards target
             transform.position += transform.forward * SPEED * Time.deltaTime;
             float targetAngle = Vector3.Angle(target.position - transform.position, transform.forward);
-            Debug.Log(targetAngle);
-            //if(targetAngle > 180) targetAngle = targetAngle - 180;
             if(transform.rotation.eulerAngles.y + targetAngle + targetAngle > transform.rotation.eulerAngles.y + targetAngle)
             targetAngle = -targetAngle;
             {
