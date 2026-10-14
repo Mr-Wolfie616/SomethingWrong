@@ -43,18 +43,19 @@ public class MainMenuManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && mapPanel.activeInHierarchy == false)
         {
             pauseMenuElements.SetActive(true);
+            minimapPanel.SetActive(false);
         }
 
-        if (Input.GetKey(KeyCode.Tab))
+        if (Input.GetKey(KeyCode.Tab) && pauseMenuElements.activeInHierarchy == false)
         {
             mapPanel.SetActive(true);
             minimapPanel.SetActive(false);
         }
 
-        if (Input.GetKeyUp(KeyCode.Tab))
+        if (Input.GetKeyUp(KeyCode.Tab) && pauseMenuElements.activeInHierarchy == false)
         {
             mapPanel.SetActive(false);
             minimapPanel.SetActive(true);
@@ -77,6 +78,7 @@ public class MainMenuManager : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenuElements.SetActive(false);
+        minimapPanel.SetActive(true);
     }
 
     public void StartGame()

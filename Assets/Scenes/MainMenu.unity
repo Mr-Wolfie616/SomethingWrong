@@ -356,9 +356,12 @@ MonoBehaviour:
   leaveConfirmPanel: {fileID: 8622160175618848071}
   optionsPanel: {fileID: 621977672987676404}
   creditsPanel: {fileID: 7941890424786730955}
+  mapPanel: {fileID: 0}
+  minimapPanel: {fileID: 0}
   mainMenuElements: {fileID: 792532057438634795}
   pauseMenuElements: {fileID: 792532057438634795}
   sceneToLoad: MainScene
+  isPauseMenu: 0
 --- !u!4 &1499968996
 Transform:
   m_ObjectHideFlags: 0
