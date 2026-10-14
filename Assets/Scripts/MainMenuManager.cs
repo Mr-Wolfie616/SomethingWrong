@@ -18,6 +18,8 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject leaveConfirmPanel;
     [SerializeField] GameObject optionsPanel;
     [SerializeField] GameObject creditsPanel;
+    [SerializeField] GameObject mapPanel;
+    [SerializeField] GameObject minimapPanel;
 
     [SerializeField] GameObject mainMenuElements;
     [SerializeField] GameObject pauseMenuElements;
@@ -31,6 +33,7 @@ public class MainMenuManager : MonoBehaviour
         leaveConfirmPanel.SetActive(false);
         optionsPanel.SetActive(false);
         creditsPanel.SetActive(false);
+        mapPanel.SetActive(false);
 
         if (isPauseMenu)
         {
@@ -43,6 +46,18 @@ public class MainMenuManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             pauseMenuElements.SetActive(true);
+        }
+
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            mapPanel.SetActive(true);
+            minimapPanel.SetActive(false);
+        }
+
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            mapPanel.SetActive(false);
+            minimapPanel.SetActive(true);
         }
     }
 
