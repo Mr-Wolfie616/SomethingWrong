@@ -20,6 +20,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject creditsPanel;
     [SerializeField] GameObject mapPanel;
     [SerializeField] GameObject minimapPanel;
+    [SerializeField] GameObject deathScreenPanel;
 
     [SerializeField] GameObject mainMenuElements;
     [SerializeField] GameObject pauseMenuElements;
@@ -123,5 +124,13 @@ public class MainMenuManager : MonoBehaviour
     public void BackToMenu()
     {
         SceneManager.LoadScene(sceneToLoad);
+    }
+
+    public void Death()
+    {
+        deathScreenPanel.SetActive(true);
+        pauseMenuElements.SetActive(false);
+        mapPanel.SetActive(false);
+        minimapPanel.SetActive(false);
     }
 }
