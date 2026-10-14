@@ -22,7 +22,7 @@ public class EnemyDisplay : MonoBehaviour
         West.SetActive(true);
         Vector3 vectorToPlayer = Player.transform.position - transform.position;
         vectorToPlayer.y = 0;
-        float angleToPlayer = Vector3.SignedAngle(vectorToPlayer, transform.forward, Vector3.up);
+        float angleToPlayer = Vector3.SignedAngle(transform.forward, vectorToPlayer, Vector3.up);
 
         if(angleToPlayer <= 45 && angleToPlayer >= -45)
         {
@@ -34,12 +34,12 @@ public class EnemyDisplay : MonoBehaviour
         {
             North.SetActive(false);
             South.SetActive(false);
-            East.SetActive(false);
+            West.SetActive(false);
         }
         else if(angleToPlayer < -45 && angleToPlayer > -135)
         {
             North.SetActive(false);
-            West.SetActive(false);
+            East.SetActive(false);
             South.SetActive(false);
         }
         else

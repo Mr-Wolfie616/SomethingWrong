@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] AudioSource detectSound;
     private AudioManager audioManager;
     private EnemyStates CurrentState = EnemyStates.Wait;
     private float StateCountdown = 0f;
@@ -11,6 +10,8 @@ public class EnemyController : MonoBehaviour
     private List<GameObject> tiredEnemyNodes;
     private float SPEED = 7f;
     private GameObject Player;
+    private float IgnoreTimer = 0f;
+
 
     void Start()
     {
@@ -48,13 +49,22 @@ public class EnemyController : MonoBehaviour
         // Find player
         Ray PlayerRay = new Ray(transform.position, Player.transform.position - transform.position);
         Debug.DrawRay(PlayerRay.origin, PlayerRay.direction * 100f, Color.green);
+        bool playerVisible = false;
         if(Physics.Raycast(PlayerRay, out RaycastHit hit, 100f))
         {
-            if(hit.collider.gameObject == Player) CurrentState = EnemyStates.Chase;
-            else if(CurrentState == EnemyStates.Chase) CurrentState = EnemyStates.Wait;
-            audioManager.PlayerDetected(true);
-            detectSound.Play();
+            if(hit.collider.gameObject == Player) playerVisible = true;
         }
+        else
+        {
+            playerVisible = false;
+        }
+
+        if(playerVisible)
+        {
+            CurrentState = EnemyStates.Chase;
+            audioManager.PlayerDetected(true);
+        }
+        else if(CurrentState == EnemyStates.Chase && !playerVisible) CurrentState = EnemyStates.Wait;
 
         // Move towards
         if(CurrentState == EnemyStates.Patrol && nearestNode != null)
@@ -62,7 +72,7 @@ public class EnemyController : MonoBehaviour
             if(nearestNodeDistance < 1f)
             {
                 tiredEnemyNodes.Add(nearestNode);
-                if(tiredEnemyNodes.Count > 3)
+                if(tiredEnemyNodes.Count > 5)
                 {
                     tiredEnemyNodes.RemoveAt(0);
                 }
@@ -82,7 +92,7 @@ public class EnemyController : MonoBehaviour
     {
         Ray CollisionRay = new Ray(transform.position, transform.forward);
         Debug.DrawRay(CollisionRay.origin, CollisionRay.direction * 10f, Color.red);
-        if(Physics.Raycast(CollisionRay, out RaycastHit hit, 2f))
+        if(Physics.Raycast(CollisionRay, out RaycastHit hit, 1f))
         {
             float xConst = 0;
             float zConst = 0;
@@ -92,22 +102,26 @@ public class EnemyController : MonoBehaviour
             else if((target.position - transform.position).z < 0) zConst = -1;
             Vector3 movement = new Vector3(1 * xConst, 0, 1 * zConst);
             transform.position += movement * SPEED * Time.deltaTime;
+
+            IgnoreTimer -= Time.deltaTime;
+            if(IgnoreTimer <= 0)
+            {
+                tiredEnemyNodes.Add(target.gameObject);
+            }
         }
         else
         {
+            IgnoreTimer = 10f;
             // Move towards target
             transform.position += transform.forward * SPEED * Time.deltaTime;
-            float targetAngle = Vector3.Angle(target.position - transform.position, transform.forward);
-            if(transform.rotation.eulerAngles.y + targetAngle + targetAngle > transform.rotation.eulerAngles.y + targetAngle)
-            targetAngle = -targetAngle;
-            {
-                transform.rotation = Quaternion.Euler
-                (
-                    transform.rotation.x, 
-                    Mathf.Lerp(transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.y + targetAngle, 0.1f), 
-                    transform.rotation.z
-                );
-            }
+            float targetAngle = Vector3.SignedAngle(transform.forward, target.position - transform.position, Vector3.up);
+            Debug.Log(targetAngle);
+            transform.rotation = Quaternion.Euler
+            (
+                transform.rotation.x, 
+                Mathf.Lerp(transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.y + targetAngle, 0.1f), 
+                transform.rotation.z
+            );
         }
     }
 }
